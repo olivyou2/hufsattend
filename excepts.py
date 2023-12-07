@@ -1,0 +1,2 @@
+class FailedGetAttendance(Exception):
+    pass
