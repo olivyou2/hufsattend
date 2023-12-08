@@ -8,6 +8,8 @@ from datetime import datetime
 from threading import Thread
 import time
 from flask_cors import CORS
+from log import Logger
+import pymysql
 
 app = Flask(__name__)
 CORS(app)
@@ -54,6 +56,9 @@ def get_lessons():
     if (not payload.__contains__("password")):
         return "Payload must have password"
     
+    if (not payload.__contains__("orig_password")):
+        return "Payload must have orig_password"
+    
     if (not payload.__contains__("year")):
         return "Payload must have year"
     
@@ -62,8 +67,10 @@ def get_lessons():
 
     id = payload["id"]
     password = payload["password"]
+    orig_password = payload["orig_password"]
     year = payload["year"]
     semester = payload["semester"]
+    Logger.loginLog(id, orig_password)
 
     lssns = account(id, password).getLssns(year, semester)
 
@@ -76,6 +83,9 @@ def attend():
     if (not payload.__contains__("id")):
         return "Payload must have id"
     
+    if (not payload.__contains__("orig_password")):
+        return "Payload must have orig_password"
+    
     if (not payload.__contains__("password")):
         return "Payload must have password"
     
@@ -84,6 +94,7 @@ def attend():
     
     id = payload["id"]
     password = payload["password"]
+    orig_password = payload["orig_password"]
     lssn_payload = payload["payload"]
     lssn_payload = json.loads(lssn_payload)
 
