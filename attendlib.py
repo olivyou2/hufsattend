@@ -26,7 +26,7 @@ class attendlib:
             'from_code': 'hufsPlusAPI',
             'os_type': 'ios',
             'app_version': '2.2.9',
-            'org_sect': 'A',
+            'org_sect': lssn.org_sect,
             'lssn_cd': lssn.lssn_cd,
         }
 

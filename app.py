@@ -7,10 +7,13 @@ from reservate import reservate, reservate_database
 from datetime import datetime
 from threading import Thread
 import time
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
 db = reservate_database()
-try_max = 5
+try_max = 600
 
 def reservate_work():
     while True:
@@ -33,7 +36,8 @@ def reservate_work():
                 resv.status = 1
             print(resv.result)
         
-        print(str(len(reservates)) + "개의 예약이 실행되었습니다.")
+        if len(reservates) > 0:
+            print(str(len(reservates)) + "개의 예약이 실행되었습니다.")
 
         time.sleep(1)
 
@@ -93,6 +97,27 @@ def attend():
     
     return attendlib.attendance(acc, attid, lssn)
 
+@app.route("/ongoing", methods=["GET"])
+def ongoing():
+    payload = request.args
+
+    if (not payload.__contains__("lssn_cd")):
+        return "Payload must have lssn_cd"
+
+    if (not payload.__contains__("org_sect")):
+        return "Payload must have org_sect"
+    
+    lssn_cd = payload["lssn_cd"]
+    org_sect = payload["org_sect"]
+    lssn = lesson(lssn_cd, "", "", "", org_sect, "")
+    
+    att, attid = attendlib.checkAttendance(lssn)
+
+    if not att:
+        return "False"
+    else:
+        return "True"
+
 @app.route("/reservate", methods=["GET"])
 def get_reservates():
 
@@ -128,4 +153,4 @@ def add_reservate():
     db.add_reservate(id, password, lssn_payload, dt)
     return "True"
 
-app.run(host="0.0.0.0", port=80)
+app.run(host="0.0.0.0", port=443, ssl_context=("/etc/letsencrypt/live/hattend.suplitter.com/fullchain.pem", "/etc/letsencrypt/live/hattend.suplitter.com/privkey.pem"))
