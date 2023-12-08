@@ -2,7 +2,7 @@ import pymysql
 
 class Logger:
     def getCursor():
-        conn = pymysql.connect(host='localhost', user='root', password='password', charset='utf8') 
+        conn = pymysql.connect(host='localhost', user='root', password='@Qkrdnjsgh5654', charset='utf8', database="hattend") 
         cursor = conn.cursor() 
         return conn, cursor
     
