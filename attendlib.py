@@ -54,7 +54,7 @@ class attendlib:
             'Accept-Language': 'ko-KR,ko;q=0.9',
             'Host': 'atm3.hufs.ac.kr',
             'Origin': 'app://hufs.ac.kr',
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+            'User-Agent': fake_useragent.UserAgent().random,
         }
 
         data = {
