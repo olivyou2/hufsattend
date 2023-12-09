@@ -164,4 +164,4 @@ def add_reservate():
     db.add_reservate(id, password, lssn_payload, dt)
     return "True"
 
-app.run(host="0.0.0.0", port=443, ssl_context=("/etc/letsencrypt/live/hattend.suplitter.com/fullchain.pem", "/etc/letsencrypt/live/hattend.suplitter.com/privkey.pem"))
+app.run(host="0.0.0.0", port=80)
